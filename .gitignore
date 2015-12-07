@@ -1,0 +1,13 @@
+# IntelliJ
+.idea
+
+# OSX
+*.DS_Store
+
+# Python
+*.pyc
+venv/
+
+# VIM
+*.swp
+*.swo
