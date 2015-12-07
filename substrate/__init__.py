@@ -1,15 +1,11 @@
-"""Configures the database connection on import.
+"""Configures substrate's API.
 """
 
 
-import configparser
 from flask.ext.sqlalchemy import SQLAlchemy
 
 
 db = SQLAlchemy()
-
-config = configparser.ConfigParser()
-config.read('app.ini')
 
 from models.customdataset import CustomDataset as CustomDataset
 from models.dataset import Dataset as Dataset
