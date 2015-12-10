@@ -1,7 +1,6 @@
 """Configures substrate's API.
 """
 
-
 from flask.ext.sqlalchemy import SQLAlchemy
 
 
