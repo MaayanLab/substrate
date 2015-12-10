@@ -1,7 +1,6 @@
 """A supported downstream target application.
 """
 
-
 from substrate import db
 
 

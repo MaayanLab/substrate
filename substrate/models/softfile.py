@@ -1,11 +1,6 @@
 """Represents a SoftFile, either from GEO or a user upload, with a link to
 the cleaned file and associated metadata.
-
-__authors__ = "Gregory Gundersen"
-__credits__ = "Ma'ayan Lab, Icahn School of Medicine at Mount Sinai"
-__contact__ = "avi.maayan@mssm.edu"
 """
-
 
 from substrate import db
 

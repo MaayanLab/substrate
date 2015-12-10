@@ -2,7 +2,6 @@
 and GeoPlatform (GPL).
 """
 
-
 from substrate import db
 
 
@@ -18,7 +17,10 @@ class Dataset(db.Model):
     __mapper_args__ = {'polymorphic_on': record_type}
 
     # Back references.
-    soft_files = db.relationship('SoftFile', backref=db.backref('dataset', order_by=id))
+    soft_files = db.relationship(
+        'SoftFile',
+         backref=db.backref('dataset', order_by=id)
+    )
 
     def __init__(self, **kwargs):
         self.title = kwargs['title']

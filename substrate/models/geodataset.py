@@ -2,7 +2,6 @@
 and GeoPlatform (GPL).
 """
 
-
 from substrate import db
 from substrate.models.dataset import Dataset
 

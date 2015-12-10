@@ -2,7 +2,6 @@
 and has a many-to-many db.relationship with a GeneList.
 """
 
-
 from substrate import db
 
 
