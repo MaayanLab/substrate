@@ -43,11 +43,13 @@ class GeneList(db.Model):
     def serialize(self):
         """Return serialized object.
         """
-        target_apps = {}
+        target_apps = []
         for app_link in self.target_app_links:
-            key = app_link.target_app.name
-            value = app_link.link
-            target_apps[key] = value
+            target_apps.append({
+                'name': app_link.target_app.name,
+                'direction': app_link.direction,
+                'link': app_link.link
+            })
         return {
             'ranked_genes': [rg.serialize for rg in self.ranked_genes],
             'target_apps': target_apps
