@@ -16,7 +16,6 @@ class GeneList(db.Model):
 
     __tablename__ = 'gene_list'
     id = db.Column(db.Integer, primary_key=True)
-    direction = db.Column(db.Integer)
     gene_signature_fk = db.Column(
         db.Integer,
         db.ForeignKey('gene_signature.id')
@@ -31,11 +30,10 @@ class GeneList(db.Model):
         backref=db.backref('gene_list', order_by=id)
     )
 
-    def __init__(self, ranked_genes, direction, target_app_links):
+    def __init__(self, ranked_genes, target_app_links):
         """Constructs a gene list.
         """
         self.ranked_genes = ranked_genes
-        self.direction = direction
         self.target_app_links = target_app_links
 
     def __repr__(self):
@@ -51,7 +49,6 @@ class GeneList(db.Model):
             value = app_link.link
             target_apps[key] = value
         return {
-            'direction': self.direction,
             'ranked_genes': [rg.serialize for rg in self.ranked_genes],
             'target_apps': target_apps
         }
