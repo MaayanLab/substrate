@@ -57,7 +57,7 @@ class GeneSignature(db.Model):
         return {
             'extraction_id': self.extraction_id,
             'soft_file': self.soft_file.serialize,
-            'gene_lists': self.gene_list.serialize,
+            'gene_list': self.gene_list.serialize,
             'required_metadata': self.required_metadata.serialize,
             'optional_metadata': {om.name: om.value for om in self.optional_metadata},
             'tags': [t.name for t in self.tags]
