@@ -10,7 +10,7 @@ setup(
     url='https://github.com/MaayanLab/substrate',
     author='Gregory Gundersen',
     author_email='avi.maayan@mssm.edu',
-    version='1.0',
+    version='1.1',
     packages=find_packages(),
     install_requires=['flask', 'flask-sqlalchemy']
 )
