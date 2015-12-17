@@ -15,9 +15,14 @@ class Report(db.Model):
     # TODO: Implement custom vs tag-based reporting.
     #__mapper_args__ = {'polymorphic_on': report_type}
 
-    def __init__(self, tag):
+    def __init__(self, report_type, tag):
+        self.status = 'pending'
+        self.report_type = report_type
         self.tag = tag
         # Generate link
 
     def __repr__(self):
         return '<Report %r>' % self.id
+
+    def ready(self):
+        self.status = 'ready'
