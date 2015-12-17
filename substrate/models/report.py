@@ -12,7 +12,6 @@ class Report(db.Model):
     status = db.Column(db.String(32), nullable=False)
     report_type = db.Column(db.Text, nullable=False)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
-    tag = db.relationship('Tag', back_populates='reports')
 
     # TODO: Implement custom vs tag-based reporting.
     #__mapper_args__ = {'polymorphic_on': report_type}
