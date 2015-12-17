@@ -8,7 +8,6 @@ class Report(db.Model):
 
     __tablename__ = 'report'
     id = db.Column(db.Integer, primary_key=True)
-    link = db.Column(db.Text, nullable=False)
     status = db.Column(db.String(32), nullable=False)
     report_type = db.Column(db.Text, nullable=False)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
