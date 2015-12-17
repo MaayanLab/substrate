@@ -21,10 +21,16 @@ class Tag(db.Model):
     __tablename__ = 'tag'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
+
+    # Back references.
     gene_signatures = db.relationship(
         'GeneSignature',
         secondary=gene_signatures_to_tags,
         backref=db.backref('tags', order_by=id)
+    )
+    reports = db.relationship(
+        'Report',
+        backref=db.backref('reports', order_by=id)
     )
 
     def __init__(self, name):
