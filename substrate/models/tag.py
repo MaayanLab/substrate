@@ -28,6 +28,7 @@ class Tag(db.Model):
         secondary=gene_signatures_to_tags,
         backref=db.backref('tags', order_by=id)
     )
+
     reports = db.relationship(
         'Report',
         backref=db.backref('report', order_by=id)
