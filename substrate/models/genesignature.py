@@ -28,7 +28,6 @@ class GeneSignature(db.Model):
     )
     required_metadata = db.relationship(
         'RequiredMetadata',
-        uselist=False,
         backref=db.backref('gene_signature', order_by=id)
     )
     optional_metadata = db.relationship(
