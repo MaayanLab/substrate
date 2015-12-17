@@ -12,15 +12,14 @@ class Report(db.Model):
     status = db.Column(db.String(32), nullable=False)
     report_type = db.Column(db.Text, nullable=False)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
+    tag = db.relationship("Tag")
 
     # TODO: Implement custom vs tag-based reporting.
     #__mapper_args__ = {'polymorphic_on': report_type}
 
-    def __init__(self, **kwargs):
-        self.link = kwargs['link']
-        self.status = kwargs['status']
-        self.report_type = kwargs['report_type']
-        self.tag_fk = kwargs['tag_fk']
+    def __init__(self, tag):
+        self.tag = tag
+        # Generate link
 
     def __repr__(self):
         return '<Report %r>' % self.id

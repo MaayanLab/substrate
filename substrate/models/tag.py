@@ -30,7 +30,7 @@ class Tag(db.Model):
     )
     reports = db.relationship(
         'Report',
-        backref=db.backref('reports', order_by=id)
+        backref=db.backref('report', order_by=id)
     )
 
     def __init__(self, name):
