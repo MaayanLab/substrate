@@ -16,7 +16,7 @@ class Report(db.Model):
     #__mapper_args__ = {'polymorphic_on': report_type}
 
     def __init__(self, report_type, tag):
-        self.status = 'pending'
+        self.ready = False
         self.report_type = report_type
         self.tag = tag
         # Generate link
