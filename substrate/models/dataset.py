@@ -19,7 +19,7 @@ class Dataset(db.Model):
     # Back references.
     soft_files = db.relationship(
         'SoftFile',
-         backref=db.backref('dataset', order_by=id)
+        backref=db.backref('dataset', order_by=id)
     )
 
     def __init__(self, **kwargs):
