@@ -23,7 +23,7 @@ class GeneSignature(db.Model):
     )
     gene_list = db.relationship(
         'GeneList',
-
+        uselist=False,
         backref=db.backref('gene_signature', order_by=id)
     )
     required_metadata = db.relationship(
