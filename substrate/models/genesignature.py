@@ -53,8 +53,9 @@ class GeneSignature(db.Model):
         return '<GeneSignature %r>' % self.id
 
     def get_optional_metadata(self, name):
+        name = name.lower()
         for opt in self.optional_metadata:
-            if opt.name == name:
+            if opt.name.lower() == name:
                 return opt
         return None
 
