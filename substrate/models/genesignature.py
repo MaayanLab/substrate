@@ -52,6 +52,12 @@ class GeneSignature(db.Model):
     def __repr__(self):
         return '<GeneSignature %r>' % self.id
 
+    def get_optional_metadata(self, name):
+        for opt in self.optional_metadata:
+            if opt.name == name:
+                return opt
+        return None
+
     @property
     def serialize(self):
         return {
