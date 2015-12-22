@@ -8,7 +8,7 @@ class Report(db.Model):
 
     __tablename__ = 'report'
     id = db.Column(db.Integer, primary_key=True)
-    ready = db.Column(db.Boolean, nullable=False)
+    status = db.Column(db.String, nullable=False)
     report_type = db.Column(db.Text, nullable=False)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
 
