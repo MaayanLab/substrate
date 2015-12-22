@@ -13,10 +13,12 @@ class TargetAppLink(db.Model):
     gene_list_fk = db.Column(db.Integer, db.ForeignKey('gene_list.id'))
     report_fk = db.Column(db.Integer, db.ForeignKey('report.id'))
     link = db.Column(db.Text)
+    description = db.Column(db.Text)
 
-    def __init__(self, target_app, link):
+    def __init__(self, target_app, link, description=''):
         self.target_app = target_app
         self.link = link
+        self.description = description
 
     def __repr__(self):
         return '<TargetAppLink %r>' % self.id
