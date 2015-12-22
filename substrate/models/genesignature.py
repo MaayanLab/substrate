@@ -2,6 +2,7 @@
 processed data, with links to the SOFT file, gene lists, and metadata.
 """
 
+
 import hashlib
 import time
 
@@ -21,10 +22,10 @@ class GeneSignature(db.Model):
         uselist=False,
         backref='gene_signatures'
     )
-    gene_list = db.relationship(
+    gene_lists = db.relationship(
         'GeneList',
-        uselist=False,
-        backref=db.backref('gene_signature', order_by=id)
+        backref=db.backref('gene_signature',
+        order_by=id)
     )
     required_metadata = db.relationship(
         'RequiredMetadata',
@@ -36,7 +37,7 @@ class GeneSignature(db.Model):
         backref=db.backref('gene_signature', order_by=id)
     )
 
-    def __init__(self, soft_file, gene_list, required_metadata, optional_metadata, tags):
+    def __init__(self, soft_file, gene_lists, required_metadata, optional_metadata, tags):
         """Construct an Extraction instance. This is called only by class
         methods.
         """
@@ -44,7 +45,7 @@ class GeneSignature(db.Model):
         # simply guess the ID for other user's data.
         self.extraction_id = hashlib.sha1(str(time.time())).hexdigest()[:10]
         self.soft_file = soft_file
-        self.gene_list = gene_list
+        self.gene_lists = gene_lists
         self.required_metadata = required_metadata
         self.optional_metadata = optional_metadata
         self.tags = tags
@@ -57,7 +58,7 @@ class GeneSignature(db.Model):
         return {
             'extraction_id': self.extraction_id,
             'soft_file': self.soft_file.serialize,
-            'gene_list': self.gene_list.serialize,
+            'gene_lists': [gl.serialize for gl in self.gene_lists],
             'required_metadata': self.required_metadata.serialize,
             'optional_metadata': {om.name: om.value for om in self.optional_metadata},
             'tags': [t.name for t in self.tags]
