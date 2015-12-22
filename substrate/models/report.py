@@ -12,6 +12,11 @@ class Report(db.Model):
     report_type = db.Column(db.Text, nullable=False)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
 
+    links = db.relationship(
+        'TargetAppLink',
+        backref=db.backref('report', order_by=id)
+    )
+
     # TODO: Implement custom vs tag-based reporting.
     #__mapper_args__ = {'polymorphic_on': report_type}
 
@@ -19,10 +24,13 @@ class Report(db.Model):
         self.status = 'pending'
         self.report_type = report_type
         self.tag = tag
-        # Generate link
+        self.links = []
 
     def __repr__(self):
         return '<Report %r>' % self.id
+
+    def set_link(self, link):
+        self.links.append(link)
 
     @property
     def ready(self):

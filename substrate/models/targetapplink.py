@@ -11,6 +11,7 @@ class TargetAppLink(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     target_app_fk = db.Column(db.Integer, db.ForeignKey('target_app.id'))
     gene_list_fk = db.Column(db.Integer, db.ForeignKey('gene_list.id'))
+    report_fk = db.Column(db.Integer, db.ForeignKey('report.id'))
     link = db.Column(db.Text)
 
     def __init__(self, target_app, link):
