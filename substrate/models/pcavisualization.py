@@ -8,7 +8,7 @@ class PCAVisualization(db.Model):
 
     __tablename__ = 'pca_visualization'
     id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.Blob, nullable=False)
+    data = db.Column(db.Binary, nullable=False)
     report_fk = db.relationship(
         'Report',
         backref=db.backref('pca_visualiation', order_by=id)
