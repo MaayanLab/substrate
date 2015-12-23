@@ -1,4 +1,4 @@
-"""Unique gene symbol in a table of canonical symbols.
+"""PCA visualization of a gene signatures in a report.
 """
 
 from substrate import db

@@ -19,7 +19,7 @@ class Report(db.Model):
 
     pca_visualization = db.relationship(
         'PCAVisualization',
-        backref=db.backref('report', order_by=id)
+        backref=db.backref('report', uselist=False, order_by=id)
     )
 
     # TODO: Implement custom vs tag-based reporting.
