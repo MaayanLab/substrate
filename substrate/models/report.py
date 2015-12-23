@@ -32,6 +32,9 @@ class Report(db.Model):
     def set_link(self, link):
         self.links.append(link)
 
+    def set_pca_visualization(self, pca_visualization):
+        self.pca_visualization = pca_visualization
+
     @property
     def ready(self):
         return self.status == 'ready'

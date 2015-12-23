@@ -11,11 +11,11 @@ class PCAVisualization(db.Model):
     data = db.Column(db.Binary, nullable=False)
     report_fk = db.relationship(
         'Report',
-        backref=db.backref('pca_visualiation', order_by=id)
+        backref=db.backref('pca_visualization', order_by=id)
     )
 
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, data):
+        self.data = data
 
     def __repr__(self):
-        return '<Gene %r>' % self.id
+        return '<PCAVisualization %r>' % self.id
