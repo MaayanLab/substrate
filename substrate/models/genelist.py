@@ -49,10 +49,10 @@ class GeneList(db.Model):
         for app_link in self.target_app_links:
             target_apps.append({
                 'name': app_link.target_app.name,
-                'direction': app_link.gene_list_direction,
                 'link': app_link.link
             })
         return {
+            'direction': self.direction,
             'ranked_genes': [rg.serialize for rg in self.ranked_genes],
             'target_apps': target_apps
         }
