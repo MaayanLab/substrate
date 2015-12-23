@@ -21,6 +21,7 @@ class Tag(db.Model):
     __tablename__ = 'tag'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
+    is_curated = db.Column(db.Boolean)
 
     # Back references.
     gene_signatures = db.relationship(
@@ -34,8 +35,9 @@ class Tag(db.Model):
         backref=db.backref('tag', order_by=id)
     )
 
-    def __init__(self, name):
+    def __init__(self, name, is_curated=False):
         self.name = name
+        self.is_curated = is_curated
 
     def __repr__(self):
         return '<Tag %r>' % self.id
