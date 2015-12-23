@@ -17,6 +17,11 @@ class Report(db.Model):
         backref=db.backref('report', order_by=id)
     )
 
+    pca_visualization = db.relationship(
+        'PCAVisualization',
+        backref=db.backref('report', order_by=id)
+    )
+
     # TODO: Implement custom vs tag-based reporting.
     #__mapper_args__ = {'polymorphic_on': report_type}
 
