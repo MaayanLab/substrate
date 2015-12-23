@@ -13,6 +13,7 @@ from models.genelist import GeneList
 from models.genesignature import GeneSignature
 from models.geodataset import GeoDataset
 from models.optionalmetadata import OptionalMetadata
+from models.pcavisualization import PCAVisualization
 from models.rankedgene import RankedGene
 from models.requiredmetadata import RequiredMetadata
 from models.report import Report
