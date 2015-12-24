@@ -10,7 +10,6 @@ class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String, nullable=False)
     report_type = db.Column(db.String, nullable=False)
-    description = db.Column(db.Text, nullable=True)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
 
     links = db.relationship(

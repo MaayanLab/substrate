@@ -22,6 +22,7 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     is_curated = db.Column(db.Boolean)
+    description = db.Column(db.Text, nullable=True)
 
     # Back references.
     gene_signatures = db.relationship(
