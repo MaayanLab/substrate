@@ -12,9 +12,10 @@ class HierClustVisualization(db.Model):
     target_app_fk = db.Column(db.Integer, db.ForeignKey('target_app.id'))
     report_fk = db.Column(db.Integer, db.ForeignKey('report.id'))
 
-    title = db.Column(db.String)
+    title = db.Column(db.String(255))
     description = db.Column(db.Text)
     link = db.Column(db.Text)
+    viz_type = db.Column(db.String(255))
 
     def __init__(self, title, description, link, viz_type, target_app):
         self.title = title
