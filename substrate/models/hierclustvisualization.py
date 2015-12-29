@@ -14,6 +14,7 @@ class HierClustVisualization(db.Model):
 
     link = db.Column(db.Text)
     viz_type = db.Column(db.String(255))
+    enrichr_library = db.Column(db.String(255))
 
     def __init__(self, link, viz_type, target_app, enrichr_library=None):
         self.link = link
