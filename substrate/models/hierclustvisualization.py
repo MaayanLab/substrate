@@ -12,19 +12,16 @@ class HierClustVisualization(db.Model):
     target_app_fk = db.Column(db.Integer, db.ForeignKey('target_app.id'))
     report_fk = db.Column(db.Integer, db.ForeignKey('report.id'))
 
-    title = db.Column(db.String(255))
-    description = db.Column(db.Text)
     link = db.Column(db.Text)
     viz_type = db.Column(db.String(255))
 
-    def __init__(self, title, description, link, viz_type, target_app):
-        self.title = title
-        self.description = description
+    def __init__(self, link, viz_type, target_app, enrichr_library=None):
         self.link = link
         if viz_type not in ['enrichr', 'l1000cds2']:
             raise ValueError('viz_type must be "enrichr" or "l1000cds2"')
         self.viz_type = viz_type
         self.target_app = target_app
+        self.enrichr_library = enrichr_library
 
     def __repr__(self):
-        return '<Visualization %r>' % self.id
+        return '<HierClustVisualization %r>' % self.id
