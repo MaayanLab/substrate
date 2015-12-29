@@ -12,7 +12,7 @@ class Report(db.Model):
     report_type = db.Column(db.String, nullable=False)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
 
-    hier_clust_visualizations = db.relationship(
+    hier_clusts = db.relationship(
         'HierClustVisualization',
         backref=db.backref('report', order_by=id)
     )
@@ -30,13 +30,13 @@ class Report(db.Model):
         self.status = 'pending'
         self.report_type = report_type
         self.tag = tag
-        self.links = []
+        self.hier_clusts = []
 
     def __repr__(self):
         return '<Report %r>' % self.id
 
-    def set_link(self, link):
-        self.links.append(link)
+    def set_hier_clust(self, hier_clust):
+        self.hier_clusts.append(hier_clust)
 
     def set_pca_visualization(self, pca_visualization):
         self.pca_visualization = pca_visualization
