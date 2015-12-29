@@ -12,8 +12,8 @@ class Report(db.Model):
     report_type = db.Column(db.String, nullable=False)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
 
-    links = db.relationship(
-        'TargetAppLink',
+    hier_clust_visualizations = db.relationship(
+        'HierClustVisualization',
         backref=db.backref('report', order_by=id)
     )
 
