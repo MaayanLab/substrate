@@ -72,6 +72,11 @@ class Report(db.Model):
                 .delete()
         self.status = self.PROCESSING
 
+    def get_gene_signatures(self):
+        if self.report_type == self.CUSTOM:
+            return self.gene_signatures
+        return self.tag.gene_signatures
+
     @property
     def ready(self):
         return self.status == self.READY
