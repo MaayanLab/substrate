@@ -4,6 +4,15 @@
 from substrate import db, HierClustVisualization, PCAVisualization
 
 
+gene_signature_to_report = db.Table(
+    'gene_signature_to_report',
+    db.metadata,
+    db.Column('gene_signature_fk', db.Integer,
+              db.ForeignKey('gene_signature.id')),
+    db.Column('report_fk', db.Integer, db.ForeignKey('report.id'))
+)
+
+
 class Report(db.Model):
 
     __tablename__ = 'report'
@@ -21,6 +30,13 @@ class Report(db.Model):
         'PCAVisualization',
         uselist=False,
         backref=db.backref('report', order_by=id)
+    )
+
+    # Back references.
+    gene_signatures = db.relationship(
+        'GeneSignature',
+        secondary=gene_signature_to_report,
+        backref=db.backref('reports', order_by=id)
     )
 
     PROCESSING = 'processing'
