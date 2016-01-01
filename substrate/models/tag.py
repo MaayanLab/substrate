@@ -7,11 +7,8 @@ from substrate import db
 gene_signature_to_tag = db.Table(
     'gene_signature_to_tag',
     db.metadata,
-    db.Column(
-        'gene_signature_fk',
-        db.Integer,
-        db.ForeignKey('gene_signature.id')
-    ),
+    db.Column('gene_signature_fk', db.Integer,
+              db.ForeignKey('gene_signature.id')),
     db.Column('tag_fk', db.Integer, db.ForeignKey('tag.id'))
 )
 
