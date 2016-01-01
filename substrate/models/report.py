@@ -3,11 +3,9 @@
 
 from substrate import db, HierClustVisualization, PCAVisualization
 
-PROCESSING = 'processing'
-READY = 'ready'
-
 
 class Report(db.Model):
+    
     __tablename__ = 'report'
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String, nullable=False)
@@ -25,11 +23,12 @@ class Report(db.Model):
         backref=db.backref('report', order_by=id)
     )
 
-    # TODO: Implement custom vs tag-based reporting.
-    # __mapper_args__ = {'polymorphic_on': report_type}
+    PROCESSING = 'processing'
+    READY = 'ready'
+    CUSTOM = 'custom'
 
     def __init__(self, report_type, tag):
-        self.status = PROCESSING
+        self.status = self.PROCESSING
         self.report_type = report_type
         self.tag = tag
         self.hier_clusts = []
@@ -55,12 +54,16 @@ class Report(db.Model):
                 .query \
                 .filter_by(id=self.pca_visualization.id) \
                 .delete()
-        self.status = PROCESSING
+        self.status = self.PROCESSING
 
     @property
     def ready(self):
-        return self.status == READY
+        return self.status == self.READY
 
     @property
     def processing(self):
-        return self.status == PROCESSING
+        return self.status == self.PROCESSING
+
+    @property
+    def custom(self):
+        return self.report_type == self.CUSTOM
