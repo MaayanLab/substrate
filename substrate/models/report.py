@@ -5,7 +5,7 @@ from substrate import db, HierClustVisualization, PCAVisualization
 
 
 class Report(db.Model):
-    
+
     __tablename__ = 'report'
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String, nullable=False)
