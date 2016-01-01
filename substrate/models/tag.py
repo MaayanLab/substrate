@@ -4,8 +4,8 @@
 from substrate import db
 
 
-gene_signatures_to_tags = db.Table(
-    'gene_signatures_to_tags',
+gene_signature_to_tag = db.Table(
+    'gene_signature_to_tag',
     db.metadata,
     db.Column(
         'gene_signature_fk',
@@ -27,7 +27,7 @@ class Tag(db.Model):
     # Back references.
     gene_signatures = db.relationship(
         'GeneSignature',
-        secondary=gene_signatures_to_tags,
+        secondary=gene_signature_to_tag,
         backref=db.backref('tags', order_by=id)
     )
 

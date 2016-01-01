@@ -6,7 +6,7 @@ import hashlib
 from substrate import db
 
 
-ranked_gene_2_gene_list = db.Table('ranked_gene_2_gene_list', db.metadata,
+ranked_gene_to_gene_list = db.Table('ranked_gene_to_gene_list', db.metadata,
     db.Column('ranked_gene_fk', db.Integer, db.ForeignKey('ranked_gene.id')),
     db.Column('gene_list_fk', db.Integer, db.ForeignKey('gene_list.id'))
 )
@@ -23,7 +23,7 @@ class GeneList(db.Model):
     )
     ranked_genes = db.relationship(
         'RankedGene',
-        secondary=ranked_gene_2_gene_list,
+        secondary=ranked_gene_to_gene_list,
         backref=db.backref('gene_lists', order_by=id)
     )
     target_app_links = db.relationship(
