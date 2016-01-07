@@ -1,4 +1,4 @@
-"""Groups the Extraction class's various experimental metadata as user inputs.
+"""Represents a metadata tag for aggregating signatures.
 """
 
 from substrate import db
