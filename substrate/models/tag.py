@@ -18,7 +18,9 @@ class Tag(db.Model):
     __tablename__ = 'tag'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
-    tag_type = db.Column(db.String, nullable=True)
+    curator_fk = db.Column(db.Integer,
+                           db.ForeignKey('curator.id'),
+                           nullable=True)
 
     # Back references.
     gene_signatures = db.relationship(
