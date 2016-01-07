@@ -18,7 +18,7 @@ class Tag(db.Model):
     __tablename__ = 'tag'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
-    curator_fk = db.Column(db.Integer,
+    curator_fktest = db.Column(db.Integer,
                            db.ForeignKey('curator.id'),
                            nullable=True)
 
