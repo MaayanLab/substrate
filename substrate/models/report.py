@@ -86,5 +86,5 @@ class Report(db.Model):
         return self.status == self.PROCESSING
 
     @property
-    def custom(self):
-        return self.report_type == self.CUSTOM
+    def default(self):
+        return self.report_type != self.CUSTOM

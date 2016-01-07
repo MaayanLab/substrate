@@ -39,3 +39,11 @@ class Tag(db.Model):
 
     def __repr__(self):
         return '<Tag %r>' % self.id
+
+    def get_default_report(self):
+        """Returns the default report rather than a custom report.
+        """
+        for report in self.reports:
+            if report.default:
+                return report
+        return None
