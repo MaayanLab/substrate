@@ -12,9 +12,10 @@ class Curator(db.Model):
     name = db.Column(db.String(255))
 
     # Back references.
-    tags = db.relationship('Tag', backref=db.backref('curator',
-                                                     uselist=False,
-                                                     order_by=id))
+    tags = db.relationship(
+        'Tag',
+        backref=db.backref('curator', order_by=id)
+    )
 
     def __init__(self, name, is_curated=False):
         self.name = name
