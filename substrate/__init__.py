@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+from models.curator import Curator
 from models.customdataset import CustomDataset
 from models.dataset import Dataset
 from models.gene import Gene
