@@ -1,6 +1,9 @@
 """Parent class for GEN3VA reports.
 """
 
+import requests
+from requests.exceptions import RequestException
+
 from substrate import db, HierClustVisualization, PCAVisualization
 
 
@@ -18,7 +21,6 @@ class Report(db.Model):
     __tablename__ = 'report'
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String, nullable=False)
-    report_type = db.Column(db.String, nullable=False)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
 
     hier_clusts = db.relationship(
@@ -41,24 +43,29 @@ class Report(db.Model):
 
     PROCESSING = 'processing'
     READY = 'ready'
-    CUSTOM = 'custom'
+    CLUSTERGRAMMER_URL = 'http://amp.pharm.mssm.edu/clustergrammer/status_check/'
 
-    def __init__(self, report_type, tag):
+    def __init__(self, tag):
         self.status = self.PROCESSING
-        self.report_type = report_type
         self.tag = tag
         self.hier_clusts = []
 
     def __repr__(self):
         return '<Report %r>' % self.id
 
-    def set_hier_clust(self, hier_clust):
+    def add_hier_clust(self, hier_clust):
+        """Adds a hierarchical clustering visualization to report.
+        """
         self.hier_clusts.append(hier_clust)
 
     def set_pca_visualization(self, pca_visualization):
+        """Sets the PCA visualization to report.
+        """
         self.pca_visualization = pca_visualization
 
     def reset(self):
+        """Deletes all associated visualizations for report.
+        """
         for hier_clust in self.hier_clusts:
             HierClustVisualization \
                 .query \
@@ -70,21 +77,26 @@ class Report(db.Model):
                 .query \
                 .filter_by(id=self.pca_visualization.id) \
                 .delete()
-        self.status = self.PROCESSING
 
-    def get_gene_signatures(self):
-        if self.report_type == self.CUSTOM:
-            return self.gene_signatures
+    @property
+    def gene_signatures(self):
+        """Returns the gene signatures associated with report.
+        """
         return self.tag.gene_signatures
 
     @property
     def ready(self):
-        return self.status == self.READY
-
-    @property
-    def processing(self):
-        return self.status == self.PROCESSING
-
-    @property
-    def default(self):
-        return self.report_type != self.CUSTOM
+        """Returns True if at least one hierarchical clustering visualization
+        is ready.
+        """
+        for viz in self.hier_clusts:
+            clustergrammer_id = viz.link.split('/')[-2:-1][0]
+            url = self.CLUSTERGRAMMER_URL + str(clustergrammer_id)
+            try:
+                resp = requests.get(url)
+                if resp.text == 'finished':
+                    return True
+            except RequestException as e:
+                print(e)
+                return False
+        return False
