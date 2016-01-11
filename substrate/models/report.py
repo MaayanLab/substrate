@@ -40,10 +40,6 @@ class Report(db.Model):
         backref=db.backref('reports', order_by=id)
     )
 
-    PROCESSING = 'processing'
-    READY = 'ready'
-    CLUSTERGRAMMER_URL = 'http://amp.pharm.mssm.edu/clustergrammer/status_check/'
-
     def __init__(self, tag):
         self.tag = tag
         self.hier_clusts = []
@@ -88,11 +84,12 @@ class Report(db.Model):
         """Returns True if the PCA visualization or at least one hierarchical
         clustering visualization is ready.
         """
+        CLUSTERGRAMMER_URL = 'http://amp.pharm.mssm.edu/clustergrammer/status_check/'
         if self.pca_visualization:
             return True
         for viz in self.hier_clusts:
             clustergrammer_id = viz.link.split('/')[-2:-1][0]
-            url = self.CLUSTERGRAMMER_URL + str(clustergrammer_id)
+            url = CLUSTERGRAMMER_URL + str(clustergrammer_id)
             try:
                 resp = requests.get(url)
                 if resp.text == 'finished':
