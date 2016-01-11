@@ -69,21 +69,21 @@ class Report(db.Model):
                 .delete()
 
     @property
-    def l1000cds2_visualization(self):
+    def l1000cds2_hier_clust(self):
         for viz in self.hier_clusts:
             if viz.viz_type == 'l1000cds2':
                 return
         return None
 
     @property
-    def genes_visualization(self):
+    def genes_hier_clust(self):
         for viz in self.hier_clusts:
             if viz.viz_type == 'gen3va':
                 return
         return None
 
     @property
-    def enrichr_visualizations(self):
+    def enrichr_hier_clusts(self):
         return [viz for viz in self.hier_clusts if viz.viz_type == 'enrichr']
 
     @property
