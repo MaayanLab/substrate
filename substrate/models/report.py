@@ -53,11 +53,6 @@ class Report(db.Model):
         """
         self.hier_clusts.append(hier_clust)
 
-    def set_pca_visualization(self, pca_visualization):
-        """Sets the PCA visualization to report.
-        """
-        self.pca_visualization = pca_visualization
-
     def reset(self):
         """Deletes all associated visualizations for report.
         """
@@ -72,6 +67,24 @@ class Report(db.Model):
                 .query \
                 .filter_by(id=self.pca_visualization.id) \
                 .delete()
+
+    @property
+    def l1000cds2_visualization(self):
+        for viz in self.hier_clusts:
+            if viz.viz_type == 'l1000cds2':
+                return
+        return None
+
+    @property
+    def genes_visualization(self):
+        for viz in self.hier_clusts:
+            if viz.viz_type == 'gen3va':
+                return
+        return None
+
+    @property
+    def enrichr_visualizations(self):
+        return [viz for viz in self.hier_clusts if viz.viz_type == 'enrichr']
 
     @property
     def gene_signatures(self):
