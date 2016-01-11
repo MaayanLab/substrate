@@ -20,7 +20,6 @@ class Report(db.Model):
 
     __tablename__ = 'report'
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.String, nullable=False)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
 
     hier_clusts = db.relationship(
@@ -46,9 +45,9 @@ class Report(db.Model):
     CLUSTERGRAMMER_URL = 'http://amp.pharm.mssm.edu/clustergrammer/status_check/'
 
     def __init__(self, tag):
-        self.status = self.PROCESSING
         self.tag = tag
         self.hier_clusts = []
+        self.pca_visualization = None
 
     def __repr__(self):
         return '<Report %r>' % self.id
@@ -86,9 +85,11 @@ class Report(db.Model):
 
     @property
     def ready(self):
-        """Returns True if at least one hierarchical clustering visualization
-        is ready.
+        """Returns True if the PCA visualization or at least one hierarchical
+        clustering visualization is ready.
         """
+        if self.pca_visualization:
+            return True
         for viz in self.hier_clusts:
             clustergrammer_id = viz.link.split('/')[-2:-1][0]
             url = self.CLUSTERGRAMMER_URL + str(clustergrammer_id)
