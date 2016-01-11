@@ -29,8 +29,9 @@ class Tag(db.Model):
         backref=db.backref('tags', order_by=id)
     )
 
-    reports = db.relationship(
+    report = db.relationship(
         'Report',
+        uselist=False,
         backref=db.backref('tag', order_by=id)
     )
 
