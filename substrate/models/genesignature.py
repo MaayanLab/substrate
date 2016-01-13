@@ -20,11 +20,11 @@ class GeneSignature(db.Model):
     soft_file = db.relationship(
         'SoftFile',
         uselist=False,
-        backref='gene_signatures'
+        backref='gene_signature'
     )
     gene_lists = db.relationship(
         'GeneList',
-        backref=db.backref('gene_signature', order_by=id)
+        backref=db.backref('gene_signatures', order_by=id)
     )
     required_metadata = db.relationship(
         'RequiredMetadata',
@@ -33,7 +33,11 @@ class GeneSignature(db.Model):
     )
     optional_metadata = db.relationship(
         'OptionalMetadata',
-        backref=db.backref('gene_signature', order_by=id)
+        backref=db.backref('gene_signatures', order_by=id)
+    )
+    resource = db.relationship(
+        'Resource',
+        backref=db.backref('gene_signatures', order_by=id)
     )
 
     def __init__(self, soft_file, gene_lists, required_metadata, optional_metadata, tags):
