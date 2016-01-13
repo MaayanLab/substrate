@@ -68,6 +68,13 @@ class GeneSignature(db.Model):
         return None
 
     @property
+    def combined_gene_list(self):
+        for gl in self.gene_lists:
+            if gl.direction == 0:
+                return gl
+        return None
+
+    @property
     def serialize(self):
         return {
             'extraction_id': self.extraction_id,
