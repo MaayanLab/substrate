@@ -35,6 +35,10 @@ class GeneSignature(db.Model):
         'OptionalMetadata',
         backref=db.backref('gene_signatures', order_by=id)
     )
+    resource_fk = db.Column(
+        db.Integer,
+        db.ForeignKey('resource.id')
+    )
     resource = db.relationship(
         'Resource',
         backref=db.backref('gene_signatures', order_by=id)
