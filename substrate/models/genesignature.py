@@ -81,7 +81,7 @@ class GeneSignature(db.Model):
         # one. Otherwise, create it manually.
         if len(self.gene_lists) == 3:
             return self._genes_by_direction(1)
-        return [x for x in self.combined_gene_list if x.value > 0]
+        return [x for x in self.combined_genes if x.value > 0]
 
     @property
     def up_genes(self):
@@ -89,7 +89,7 @@ class GeneSignature(db.Model):
         """
         if len(self.gene_lists) == 3:
             return self._genes_by_direction(-1)
-        return [x for x in self.combined_gene_list if x.value < 0]
+        return [x for x in self.combined_genes if x.value < 0]
 
     def _genes_by_direction(self, direction):
         """Returns correct gene list based on direction.
