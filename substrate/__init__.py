@@ -19,6 +19,7 @@ from models.pcavisualization import PCAVisualization
 from models.rankedgene import RankedGene
 from models.requiredmetadata import RequiredMetadata
 from models.report import Report
+from models.resource import Resource
 from models.softfile import SoftFile
 from models.softfilesample import SoftFileSample
 from models.tag import Tag as Tag
