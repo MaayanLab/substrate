@@ -84,7 +84,7 @@ class GeneSignature(db.Model):
         return [x for x in self.combined_genes if x.value > 0]
 
     @property
-    def up_genes(self):
+    def down_genes(self):
         """Returns down gene list.
         """
         if len(self.gene_lists) == 3:
