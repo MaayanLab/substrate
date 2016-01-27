@@ -6,7 +6,7 @@ from substrate import db
 
 class OptionalMetadata(db.Model):
 
-    __tablename__ = '_optional_metadata'
+    __tablename__ = 'optional_metadata'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     value = db.Column(db.String(255))
