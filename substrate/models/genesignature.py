@@ -68,6 +68,21 @@ class GeneSignature(db.Model):
         return None
 
     @property
+    def name(self):
+        """Returns the most specific name for the gene signature, depending on
+        the SOFT file name, the dataset title or the extraction ID.
+        """
+        sf = self.soft_file
+        if sf.name:
+            return sf.name
+
+        ds = sf.dataset
+        if ds.title:
+            return ds.title
+
+        return self.extraction_id
+
+    @property
     def combined_genes(self):
         """Returns combined gene list.
         """
