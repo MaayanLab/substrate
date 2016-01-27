@@ -31,7 +31,7 @@ class GeneSignature(db.Model):
         uselist=False,
         backref=db.backref('gene_signature', order_by=id)
     )
-    optional_metadata = db.relationship(
+    _optional_metadata = db.relationship(
         'OptionalMetadata',
         backref=db.backref('gene_signatures', order_by=id)
     )
@@ -54,18 +54,11 @@ class GeneSignature(db.Model):
         self.soft_file = soft_file
         self.gene_lists = gene_lists
         self.required_metadata = required_metadata
-        self.optional_metadata = optional_metadata
+        self._optional_metadata = optional_metadata
         self.tags = tags
 
     def __repr__(self):
         return '<GeneSignature %r>' % self.id
-
-    def get_optional_metadata(self, name):
-        name = name.lower()
-        for opt in self.optional_metadata:
-            if opt.name.lower() == name:
-                return opt
-        return None
 
     @property
     def name(self):
@@ -106,12 +99,37 @@ class GeneSignature(db.Model):
             return self._genes_by_direction(-1)
         return [x for x in self.combined_genes if x.value < 0]
 
+    @property
+    def optional_metadata(self):
+        """Utility method that returns optional metadata, filtering out
+        private metadata that we don't want users to see.
+        """
+        results = []
+        for om in self._optional_metadata:
+            if (om.value == None or
+                om.value.strip() == '' or
+                om.name == 'user_key' or
+                om.name == 'userKey' or
+                om.name == 'userEmail' or
+                om.name == 'user_email'):
+                continue
+
+            results.append(om)
+        return results
+
     def _genes_by_direction(self, direction):
         """Returns correct gene list based on direction.
         """
         for gl in self.gene_lists:
             if gl.direction == direction:
                 return gl.ranked_genes
+        return None
+
+    def get_optional_metadata(self, name):
+        name = name.lower()
+        for opt in self._optional_metadata:
+            if opt.name.lower() == name:
+                return opt
         return None
 
     @property
@@ -121,6 +139,6 @@ class GeneSignature(db.Model):
             'soft_file': self.soft_file.serialize,
             'gene_lists': [gl.serialize for gl in self.gene_lists],
             'required_metadata': self.required_metadata.serialize,
-            'optional_metadata': {om.name: om.value for om in self.optional_metadata},
+            '_optional_metadata': {om.name: om.value for om in self._optional_metadata},
             'tags': [t.name for t in self.tags]
         }
