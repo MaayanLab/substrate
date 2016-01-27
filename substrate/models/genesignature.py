@@ -66,13 +66,12 @@ class GeneSignature(db.Model):
         the SOFT file name, the dataset title or the extraction ID.
         """
         sf = self.soft_file
-        if sf.name:
-            return sf.name
-
         ds = sf.dataset
+
         if ds.title:
             return ds.title
-
+        if sf.name:
+            return sf.name
         return self.extraction_id
 
     @property
