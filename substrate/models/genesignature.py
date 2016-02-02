@@ -39,10 +39,6 @@ class GeneSignature(db.Model):
         db.Integer,
         db.ForeignKey('resource.id')
     )
-    resource = db.relationship(
-        'Resource',
-        backref=db.backref('gene_signatures', order_by=id)
-    )
 
     def __init__(self, soft_file, gene_lists, required_metadata, optional_metadata, tags, resource):
         """Construct an Extraction instance. This is called only by class
