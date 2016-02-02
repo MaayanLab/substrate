@@ -25,3 +25,5 @@ from models.softfilesample import SoftFileSample
 from models.tag import Tag as Tag
 from models.targetapp import TargetApp
 from models.targetapplink import TargetAppLink
+from models.user import User
+
