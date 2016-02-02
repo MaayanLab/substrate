@@ -44,7 +44,7 @@ class GeneSignature(db.Model):
         backref=db.backref('gene_signatures', order_by=id)
     )
 
-    def __init__(self, soft_file, gene_lists, required_metadata, optional_metadata, tags):
+    def __init__(self, soft_file, gene_lists, required_metadata, optional_metadata, tags, resource):
         """Construct an Extraction instance. This is called only by class
         methods.
         """
@@ -56,6 +56,7 @@ class GeneSignature(db.Model):
         self.required_metadata = required_metadata
         self.optional_metadata = optional_metadata
         self.tags = tags
+        self.resource = resource
 
     def __repr__(self):
         return '<GeneSignature %r>' % self.id

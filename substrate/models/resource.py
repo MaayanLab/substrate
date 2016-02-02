@@ -11,6 +11,10 @@ class Resource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(255))
     name = db.Column(db.String(255))
+    gene_signatures = db.relationship(
+        'GeneSignature',
+        backref=db.backref('resource', uselist=False, order_by=id)
+    )
 
     def __init__(self, code, name):
         self.code = code
