@@ -24,7 +24,7 @@ class GeneSignature(db.Model):
     )
     gene_lists = db.relationship(
         'GeneList',
-        backref=db.backref('gene_signatures', order_by=id)
+        backref=db.backref('gene_signature', order_by=id)
     )
     required_metadata = db.relationship(
         'RequiredMetadata',
