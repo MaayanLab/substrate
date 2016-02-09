@@ -62,13 +62,22 @@ class GeneSignature(db.Model):
         """Returns the most specific name for the gene signature, depending on
         the SOFT file name, the dataset title or the extraction ID.
         """
-        sf = self.soft_file
-        ds = sf.dataset
 
-        if ds.title:
-            return ds.title
-        if sf.name:
-            return sf.name
+        # Return the GEO dataset title or SOFT file name if possible.
+        if self.is_from_geo:
+            sf = self.soft_file
+            ds = sf.dataset
+            if ds.title:
+                return ds.title
+            if sf.name:
+                return sf.name
+
+        # Munge some metadata to construct a name if possible.
+        if len(self.filtered_optional_metadata) > 0:
+            return '_'.join([x.value for x in
+                             self.filtered_optional_metadata])
+
+        # Return the extraction ID.
         return self.extraction_id
 
     @property
@@ -102,16 +111,39 @@ class GeneSignature(db.Model):
         """
         results = []
         for om in self.optional_metadata:
-            if (om.value == None or
+            if (not om.value or
                 om.value.strip() == '' or
                 om.name == 'user_key' or
                 om.name == 'userKey' or
                 om.name == 'userEmail' or
-                om.name == 'user_email'):
+                om.name == 'user_email'
+            ):
                 continue
 
             results.append(om)
         return results
+
+    @property
+    def organism(self):
+        """Returns organism if it exists, None otherwise.
+        """
+        if self.is_from_geo:
+            return self.soft_file.dataset.organism
+        opt_meta = self.get_optional_metadata('organism')
+        if opt_meta:
+            return opt_meta.value
+        return None
+
+    @property
+    def platform(self):
+        """Returns platform if it exists, None otherwise.
+        """
+        if self.is_from_geo:
+            return self.soft_file.dataset.organism
+        opt_meta = self.get_optional_metadata('platform')
+        if opt_meta:
+            return opt_meta.value
+        return None
 
     def _genes_by_direction(self, direction):
         """Returns correct gene list based on direction.
@@ -121,7 +153,16 @@ class GeneSignature(db.Model):
                 return gl.ranked_genes
         return None
 
+    @property
+    def is_from_geo(self):
+        """Returns True if gene signature was extracted from GEO, False
+        otherwise.
+        """
+        return self.resource.code == 'geo'
+
     def get_optional_metadata(self, name):
+        """Returns optional metadata value if it exists, None otherwise.
+        """
         name = name.lower()
         for opt in self.optional_metadata:
             if opt.name.lower() == name:
