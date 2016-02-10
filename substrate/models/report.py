@@ -4,7 +4,7 @@
 import requests
 from requests.exceptions import RequestException
 
-from substrate import db, HierClustVisualization, PCAVisualization
+from substrate import db, HeatMap, PCAPlot
 
 
 gene_signature_to_report = db.Table(
@@ -57,13 +57,13 @@ class Report(db.Model):
         """Deletes all associated visualizations for report.
         """
         for hier_clust in self.hier_clusts:
-            HierClustVisualization \
+            HeatMap \
                 .query \
                 .filter_by(id=hier_clust.id) \
                 .delete()
 
         if self.pca_visualization:
-            PCAVisualization \
+            PCAPlot \
                 .query \
                 .filter_by(id=self.pca_visualization.id) \
                 .delete()

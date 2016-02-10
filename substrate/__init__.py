@@ -13,9 +13,9 @@ from models.gene import Gene
 from models.genelist import GeneList
 from models.genesignature import GeneSignature
 from models.geodataset import GeoDataset
-from models.hierclustvisualization import HierClustVisualization
+from models.heatmap import HeatMap
 from models.optionalmetadata import OptionalMetadata
-from models.pcavisualization import PCAVisualization
+from models.pcaplot import PCAPlot
 from models.rankedgene import RankedGene
 from models.requiredmetadata import RequiredMetadata
 from models.report import Report

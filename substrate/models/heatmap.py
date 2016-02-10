@@ -5,9 +5,9 @@
 from substrate import db
 
 
-class HierClustVisualization(db.Model):
+class HeatMap(db.Model):
 
-    __tablename__ = 'hier_clust_visualization'
+    __tablename__ = 'heat_map'
     id = db.Column(db.Integer, primary_key=True)
     target_app_fk = db.Column(db.Integer, db.ForeignKey('target_app.id'))
     report_fk = db.Column(db.Integer, db.ForeignKey('report.id'))
@@ -25,4 +25,4 @@ class HierClustVisualization(db.Model):
         self.enrichr_library = enrichr_library
 
     def __repr__(self):
-        return '<HierClustVisualization %r>' % self.id
+        return '<HeatMap %r>' % self.id
