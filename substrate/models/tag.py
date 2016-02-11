@@ -36,10 +36,10 @@ class Tag(db.Model):
         backref=db.backref('tag', order_by=id)
     )
 
-    def __init__(self, name, is_curated=False, is_restricted=False):
+    def __init__(self, name, is_restricted, is_curated=False):
         self.name = name
-        self.is_curated = is_curated
         self.is_restricted = is_restricted
+        self.is_curated = is_curated
 
     def __repr__(self):
         return '<Tag %r>' % self.id
