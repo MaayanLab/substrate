@@ -36,7 +36,7 @@ class Tag(db.Model):
         backref=db.backref('tag', order_by=id)
     )
 
-    def __init__(self, name, is_restricted, is_curated=False):
+    def __init__(self, name, is_restricted=False, is_curated=False):
         self.name = name
         self.is_restricted = is_restricted
         self.is_curated = is_curated
