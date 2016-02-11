@@ -39,7 +39,7 @@ class Tag(db.Model):
     def __init__(self, name, is_curated=False, is_restricted=False):
         self.name = name
         self.is_curated = is_curated
-        self.is_restricted = False
+        self.is_restricted = is_restricted
 
     def __repr__(self):
         return '<Tag %r>' % self.id
