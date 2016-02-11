@@ -21,6 +21,7 @@ class Tag(db.Model):
     curator_fk = db.Column(db.Integer,
                            db.ForeignKey('curator.id'),
                            nullable=True)
+    is_restricted = db.Column(db.Boolean)
 
     # Back references.
     gene_signatures = db.relationship(
@@ -35,9 +36,10 @@ class Tag(db.Model):
         backref=db.backref('tag', order_by=id)
     )
 
-    def __init__(self, name, is_curated=False):
+    def __init__(self, name, is_curated=False, is_restricted=False):
         self.name = name
         self.is_curated = is_curated
+        self.is_restricted = False
 
     def __repr__(self):
         return '<Tag %r>' % self.id
