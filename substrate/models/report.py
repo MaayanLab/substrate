@@ -119,7 +119,6 @@ class Report(db.Model):
                 return False
         return False
 
-    @property
     def complete(self, enrichr_libraries):
         """Returns True if:
 
