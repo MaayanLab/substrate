@@ -88,6 +88,9 @@ class Report(db.Model):
 
     @property
     def enrichr_heat_maps(self):
+        """Returns a list of Enrichr heat maps if any exist, an empty list
+        otherwise.
+        """
         return [viz for viz in self.heat_maps if viz.viz_type == 'enrichr']
 
     @property
@@ -115,3 +118,20 @@ class Report(db.Model):
                 print(e)
                 return False
         return False
+
+    @property
+    def complete(self, enrichr_libraries):
+        """Returns True if:
+
+        - The PCA plot is ready.
+        - All heat maps are ready.
+        - The number of heat maps is equal to the number of supported Enrichr
+          libraries, plus the genes and L1000CDS2 heat maps.
+
+        False otherwise.
+        """
+        if not self.pca_plot:
+            return False
+        if len(self.heat_maps) != len(enrichr_libraries) + 2:
+            return False
+        return self.ready
