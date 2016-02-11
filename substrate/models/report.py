@@ -22,13 +22,13 @@ class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
 
-    hier_clusts = db.relationship(
-        'HierClustVisualization',
+    heat_maps = db.relationship(
+        'HeatMap',
         backref=db.backref('report', order_by=id)
     )
 
-    pca_visualization = db.relationship(
-        'PCAVisualization',
+    pca_plot = db.relationship(
+        'PCAPlot',
         uselist=False,
         backref=db.backref('report', order_by=id)
     )
@@ -42,49 +42,53 @@ class Report(db.Model):
 
     def __init__(self, tag):
         self.tag = tag
-        self.hier_clusts = []
-        self.pca_visualization = None
+        self.heat_maps = []
+        self.pca_plot = None
 
     def __repr__(self):
         return '<Report %r>' % self.id
 
-    def add_hier_clust(self, hier_clust):
-        """Adds a hierarchical clustering visualization to report.
+    def add_heat_map(self, heat_map):
+        """Adds a heat map (hierarchical clustering) to report.
         """
-        self.hier_clusts.append(hier_clust)
+        self.heat_maps.append(heat_map)
 
     def reset(self):
         """Deletes all associated visualizations for report.
         """
-        for hier_clust in self.hier_clusts:
+        for heat_map in self.heat_maps:
             HeatMap \
                 .query \
-                .filter_by(id=hier_clust.id) \
+                .filter_by(id=heat_map.id) \
                 .delete()
 
-        if self.pca_visualization:
+        if self.pca_plot:
             PCAPlot \
                 .query \
-                .filter_by(id=self.pca_visualization.id) \
+                .filter_by(id=self.pca_plot.id) \
                 .delete()
 
     @property
-    def l1000cds2_hier_clust(self):
-        for viz in self.hier_clusts:
+    def l1000cds2_heat_map(self):
+        """Returns the L1000CDS2 heat map if it exists, None otherwise.
+        """
+        for viz in self.heat_maps:
             if viz.viz_type == 'l1000cds2':
                 return viz
         return None
 
     @property
-    def genes_hier_clust(self):
-        for viz in self.hier_clusts:
+    def genes_heat_map(self):
+        """Returns the L1000CDS2 heat map if it exists, None otherwise.
+        """
+        for viz in self.heat_maps:
             if viz.viz_type == 'gen3va':
                 return viz
         return None
 
     @property
-    def enrichr_hier_clusts(self):
-        return [viz for viz in self.hier_clusts if viz.viz_type == 'enrichr']
+    def enrichr_heat_maps(self):
+        return [viz for viz in self.heat_maps if viz.viz_type == 'enrichr']
 
     @property
     def gene_signatures(self):
@@ -98,9 +102,9 @@ class Report(db.Model):
         clustering visualization is ready.
         """
         CLUSTERGRAMMER_URL = 'http://amp.pharm.mssm.edu/clustergrammer/status_check/'
-        if self.pca_visualization:
+        if self.pca_plot:
             return True
-        for viz in self.hier_clusts:
+        for viz in self.heat_maps:
             clustergrammer_id = viz.link.split('/')[-2:-1][0]
             url = CLUSTERGRAMMER_URL + str(clustergrammer_id)
             try:
