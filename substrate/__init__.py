@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+from models.biocategory import BioCategory
 from models.curator import Curator
 from models.customdataset import CustomDataset
 from models.dataset import Dataset
@@ -26,4 +27,3 @@ from models.tag import Tag as Tag
 from models.targetapp import TargetApp
 from models.targetapplink import TargetAppLink
 from models.user import User
-
