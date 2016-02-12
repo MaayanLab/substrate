@@ -21,6 +21,9 @@ class Tag(db.Model):
     curator_fk = db.Column(db.Integer,
                            db.ForeignKey('curator.id'),
                            nullable=True)
+    bio_category_fk = db.Column(db.Integer,
+                                db.ForeignKey('bio_category.id'),
+                                nullable=True)
     is_restricted = db.Column(db.Boolean)
 
     # Back references.
