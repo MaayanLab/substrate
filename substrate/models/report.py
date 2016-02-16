@@ -96,12 +96,6 @@ class Report(db.Model):
         return [viz for viz in self.heat_maps if viz.viz_type == 'enrichr']
 
     @property
-    def gene_signatures(self):
-        """Returns the gene signatures associated with report.
-        """
-        return self.tag.gene_signatures
-
-    @property
     def ready(self):
         """Returns True if the PCA visualization or at least one hierarchical
         clustering visualization is ready.
