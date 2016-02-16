@@ -21,6 +21,7 @@ class Report(db.Model):
     __tablename__ = 'report'
     id = db.Column(db.Integer, primary_key=True)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
+    is_approved = db.Column(db.Boolean, default=False)
 
     heat_maps = db.relationship(
         'HeatMap',
