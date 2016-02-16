@@ -33,18 +33,15 @@ class Tag(db.Model):
         backref=db.backref('tags', order_by=id)
     )
 
-    report = db.relationship(
-        'Report',
-        uselist=False,
-        backref=db.backref('tag', order_by=id)
-    )
+    reports = db.relationship('Report', backref=db.backref('tag', order_by=id))
 
     def __init__(self, name, is_restricted=False):
         self.name = name
         self.is_restricted = is_restricted
 
-    def get_approved_report(self):
-        """Returns an approved report if it exists, None otherwise.
+    @property
+    def report(self):
+        """Returns the  approved report if it exists, None otherwise.
         """
         for report in self.reports:
             if report.is_approved:
