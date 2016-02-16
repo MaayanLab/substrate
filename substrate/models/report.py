@@ -20,8 +20,9 @@ class Report(db.Model):
 
     __tablename__ = 'report'
     id = db.Column(db.Integer, primary_key=True)
-    tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
     is_approved = db.Column(db.Boolean, default=False)
+    contact = db.Column(db.String(255), nullable=True)
+    tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
 
     heat_maps = db.relationship(
         'HeatMap',
@@ -41,8 +42,9 @@ class Report(db.Model):
         backref=db.backref('reports', order_by=id)
     )
 
-    def __init__(self, tag, is_approved=False):
+    def __init__(self, tag, contact=None, is_approved=False):
         self.tag = tag
+        self.contact = contact
         self.is_approved = is_approved
         self.heat_maps = []
         self.pca_plot = None
