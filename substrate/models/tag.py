@@ -39,10 +39,17 @@ class Tag(db.Model):
         backref=db.backref('tag', order_by=id)
     )
 
-    def __init__(self, name, is_restricted=False, is_curated=False):
+    def __init__(self, name, is_restricted=False):
         self.name = name
         self.is_restricted = is_restricted
-        self.is_curated = is_curated
+
+    def get_approved_report(self):
+        """Returns an approved report if it exists, None otherwise.
+        """
+        for report in self.reports:
+            if report.is_approved:
+                return report
+        return None
 
     def __repr__(self):
         return '<Tag %r>' % self.id
