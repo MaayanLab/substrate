@@ -42,9 +42,9 @@ class Report(db.Model):
 
     def __init__(self, tag, is_approved=False):
         self.tag = tag
+        self.is_approved = is_approved
         self.heat_maps = []
         self.pca_plot = None
-        self.is_approved = is_approved
 
     def __repr__(self):
         return '<Report %r>' % self.id
