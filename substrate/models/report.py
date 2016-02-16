@@ -40,10 +40,11 @@ class Report(db.Model):
         backref=db.backref('reports', order_by=id)
     )
 
-    def __init__(self, tag):
+    def __init__(self, tag, is_approved=False):
         self.tag = tag
         self.heat_maps = []
         self.pca_plot = None
+        self.is_approved = is_approved
 
     def __repr__(self):
         return '<Report %r>' % self.id
