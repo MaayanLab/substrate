@@ -45,6 +45,7 @@ class Report(db.Model):
     def __init__(self, tag, gene_signatures=None, contact=None, is_approved=False):
         self.tag = tag
 
+        import pdb; pdb.set_trace()
         if not gene_signatures:
             self.gene_signatures = self.tag.gene_signatures
         else:
