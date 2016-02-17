@@ -42,8 +42,15 @@ class Report(db.Model):
         backref=db.backref('reports', order_by=id)
     )
 
-    def __init__(self, tag, contact=None, is_approved=False):
+    def __init__(self, tag, gene_signatures, contact=None, is_approved=False):
         self.tag = tag
+
+        # A report can be built on any subset of gene signatures from a tag.
+        if not set(gene_signatures).issubset(set(self.tag.gene_signatures)):
+            msg = 'Gene signatures must be subset of tag\'s gene signatures.'
+            raise ValueError(msg)
+
+        self.gene_signatures = gene_signatures
         self.contact = contact
         self.is_approved = is_approved
         self.heat_maps = []
@@ -51,11 +58,6 @@ class Report(db.Model):
 
     def __repr__(self):
         return '<Report %r>' % self.id
-
-    def add_heat_map(self, heat_map):
-        """Adds a heat map (hierarchical clustering) to report.
-        """
-        self.heat_maps.append(heat_map)
 
     def reset(self):
         """Deletes all associated visualizations for report.
