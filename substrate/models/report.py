@@ -42,15 +42,20 @@ class Report(db.Model):
         backref=db.backref('reports', order_by=id)
     )
 
-    def __init__(self, tag, gene_signatures, contact=None, is_approved=False):
+    def __init__(self, tag, gene_signatures=None, contact=None, is_approved=False):
         self.tag = tag
 
-        # A report can be built on any subset of gene signatures from a tag.
-        if not set(gene_signatures).issubset(set(self.tag.gene_signatures)):
-            msg = 'Gene signatures must be subset of tag\'s gene signatures.'
-            raise ValueError(msg)
+        if not gene_signatures:
+            self.gene_signatures = self.tag.gene_signatures
+        else:
+            # Report can be built on any subset of gene signatures from a tag.
+            subset = set(gene_signatures)
+            superset = set(self.tag.gene_signatures)
+            if not subset.issubset(superset):
+                msg = 'Gene signatures must be subset of tag\'s signatures.'
+                raise ValueError(msg)
+            self.gene_signatures = gene_signatures
 
-        self.gene_signatures = gene_signatures
         self.contact = contact
         self.is_approved = is_approved
         self.heat_maps = []
