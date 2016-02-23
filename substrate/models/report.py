@@ -36,25 +36,25 @@ class Report(db.Model):
     )
 
     # Back references.
-    gene_signatures = db.relationship(
+    _gene_signatures = db.relationship(
         'GeneSignature',
         secondary=gene_signature_to_report,
         backref=db.backref('reports', order_by=id)
     )
 
-    def __init__(self, tag, gene_signatures=None, contact=None, is_approved=False):
+    def __init__(self, tag, _gene_signatures=None, contact=None, is_approved=False):
         self.tag = tag
 
-        if not gene_signatures:
-            self.gene_signatures = self.tag.gene_signatures
+        if not _gene_signatures:
+            self._gene_signatures = self.tag.gene_signatures
         else:
             # Report can be built on any subset of gene signatures from a tag.
-            subset = set(gene_signatures)
+            subset = set(_gene_signatures)
             superset = set(self.tag.gene_signatures)
             if not subset.issubset(superset):
                 msg = 'Gene signatures must be subset of tag\'s signatures.'
                 raise ValueError(msg)
-            self.gene_signatures = gene_signatures
+            self._gene_signatures = _gene_signatures
 
         self.contact = contact
         self.is_approved = is_approved
@@ -63,6 +63,27 @@ class Report(db.Model):
 
     def __repr__(self):
         return '<Report %r>' % self.id
+
+    @property
+    def gene_signatures(self):
+        """Returns the correct gene signatures per report type if they exist.
+        """
+
+        # If this is a newer report and has self._gene_signatures correctly
+        # set, then use those signatures.
+        if len(self._gene_signatures) > 0:
+            return self._gene_signatures
+
+        # When a new approved report is created, we should automatically take
+        # set self._gene_signature to the tag's signatures. But for older
+        # reports, we want to make sure they still work.
+        elif self.is_approved:
+            return self.tag.gene_signatures
+
+        # What happens if the report is not approved and there are no
+        # signatures in self._gene_signatures? Too bad. We'll need to rebuild
+        # that custom report.
+        return []
 
     def reset(self):
         """Deletes all associated visualizations for report.
@@ -78,31 +99,6 @@ class Report(db.Model):
                 .query \
                 .filter_by(id=self.pca_plot.id) \
                 .delete()
-
-    @property
-    def l1000cds2_heat_map(self):
-        """Returns the L1000CDS2 heat map if it exists, None otherwise.
-        """
-        for viz in self.heat_maps:
-            if viz.viz_type == 'l1000cds2':
-                return viz
-        return None
-
-    @property
-    def genes_heat_map(self):
-        """Returns the L1000CDS2 heat map if it exists, None otherwise.
-        """
-        for viz in self.heat_maps:
-            if viz.viz_type == 'gen3va':
-                return viz
-        return None
-
-    @property
-    def enrichr_heat_maps(self):
-        """Returns a list of Enrichr heat maps if any exist, an empty list
-        otherwise.
-        """
-        return [viz for viz in self.heat_maps if viz.viz_type == 'enrichr']
 
     @property
     def ready(self):
@@ -139,3 +135,28 @@ class Report(db.Model):
         if len(self.heat_maps) != len(enrichr_libraries) + 2:
             return False
         return self.ready
+
+    @property
+    def l1000cds2_heat_map(self):
+        """Returns the L1000CDS2 heat map if it exists, None otherwise.
+        """
+        for viz in self.heat_maps:
+            if viz.viz_type == 'l1000cds2':
+                return viz
+        return None
+
+    @property
+    def genes_heat_map(self):
+        """Returns the L1000CDS2 heat map if it exists, None otherwise.
+        """
+        for viz in self.heat_maps:
+            if viz.viz_type == 'gen3va':
+                return viz
+        return None
+
+    @property
+    def enrichr_heat_maps(self):
+        """Returns a list of Enrichr heat maps if any exist, an empty list
+        otherwise.
+        """
+        return [viz for viz in self.heat_maps if viz.viz_type == 'enrichr']
