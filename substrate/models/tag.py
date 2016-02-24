@@ -40,13 +40,23 @@ class Tag(db.Model):
         self.is_restricted = is_restricted
 
     @property
-    def report(self):
+    def approved_report(self):
         """Returns the  approved report if it exists, None otherwise.
         """
         for report in self.reports:
             if report.is_approved:
                 return report
         return None
+
+    @property
+    def custom_reports(self):
+        """Returns custom reports, i.e. those that are not approved.
+        """
+        results = []
+        for report in self.reports:
+            if not report.is_approved:
+                results.append(report)
+        return results
 
     def __repr__(self):
         return '<Tag %r>' % self.id
