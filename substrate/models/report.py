@@ -22,7 +22,7 @@ class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     is_approved = db.Column(db.Boolean, default=False)
     contact = db.Column(db.String(255), nullable=True)
-    name = db.Column(db.Boolean, nullable=True)
+    name = db.Column(db.String(255), nullable=True)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
 
     heat_maps = db.relationship(
