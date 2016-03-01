@@ -84,7 +84,7 @@ class GeneSignature(db.Model):
     def combined_genes(self):
         """Returns combined gene list.
         """
-        return self._genes_by_direction(0)
+        return self.genes_by_direction(0)
 
     @property
     def up_genes(self):
@@ -93,7 +93,7 @@ class GeneSignature(db.Model):
         # If we have an up, down, and combined gene list, find the correct
         # one. Otherwise, create it manually.
         if len(self.gene_lists) == 3:
-            return self._genes_by_direction(1)
+            return self.genes_by_direction(1)
         return [x for x in self.combined_genes if x.value > 0]
 
     @property
@@ -101,7 +101,7 @@ class GeneSignature(db.Model):
         """Returns down gene list.
         """
         if len(self.gene_lists) == 3:
-            return self._genes_by_direction(-1)
+            return self.genes_by_direction(-1)
         return [x for x in self.combined_genes if x.value < 0]
 
     @property
@@ -145,7 +145,7 @@ class GeneSignature(db.Model):
             return opt_meta.value
         return None
 
-    def _genes_by_direction(self, direction):
+    def genes_by_direction(self, direction):
         """Returns correct gene list based on direction.
         """
         for gl in self.gene_lists:
