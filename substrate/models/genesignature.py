@@ -17,6 +17,10 @@ class GeneSignature(db.Model):
     # is how the front-end identifies the dataset, so that we do not display
     # the actual database ID to the users.
     extraction_id = db.Column(db.String(10))
+    resource_fk = db.Column(
+        db.Integer,
+        db.ForeignKey('resource.id')
+    )
     soft_file = db.relationship(
         'SoftFile',
         uselist=False,
@@ -33,11 +37,15 @@ class GeneSignature(db.Model):
     )
     optional_metadata = db.relationship(
         'OptionalMetadata',
-        backref=db.backref('gene_signatures', order_by=id)
+        backref=db.backref('gene_signature', order_by=id)
     )
-    resource_fk = db.Column(
-        db.Integer,
-        db.ForeignKey('resource.id')
+    l1000cds2_results = db.relationship(
+        'L1000CDS2Results',
+        backref=db.backref('gene_signature', order_by=id)
+    )
+    enrichr_results = db.relationship(
+        'EnrichrResults',
+        backref=db.backref('gene_signature', order_by=id)
     )
 
     def __init__(self, soft_file, gene_lists, required_metadata, optional_metadata, tags, resource):
@@ -187,3 +195,19 @@ class GeneSignature(db.Model):
             'optional_metadata': {om.name: om.value for om in self.optional_metadata},
             'tags': [t.name for t in self.tags]
         }
+
+    def get_l1000cds2_results(self, use_mimic):
+        """Returns the correct L1000CDS2 results if they exist.
+        """
+        for r in self.l1000cds2_results:
+            if r.is_up == use_mimic:
+                return r
+        return None
+
+    def get_enrichr_results(self, is_up):
+        """Returns the correct Enrichr results if they exist.
+        """
+        for r in self.enrichr_results:
+            if r.is_up == is_up:
+                return r
+        return None

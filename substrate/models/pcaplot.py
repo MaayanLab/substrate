@@ -16,3 +16,7 @@ class PCAPlot(db.Model):
 
     def __repr__(self):
         return '<PCAPlot %r>' % self.id
+
+    def to_json(self):
+        # self.data is already serialized JSON, stored in the database.
+        return self.data

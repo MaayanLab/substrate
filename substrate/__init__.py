@@ -19,6 +19,8 @@ from models.optionalmetadata import OptionalMetadata
 from models.pcaplot import PCAPlot
 from models.rankedgene import RankedGene
 from models.requiredmetadata import RequiredMetadata
+from models.enrichrresults import EnrichrResults
+from models.l1000cds2results import L1000CDS2Results
 from models.report import Report
 from models.resource import Resource
 from models.softfile import SoftFile

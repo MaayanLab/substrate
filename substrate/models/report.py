@@ -1,10 +1,11 @@
 """Parent class for GEN3VA reports.
 """
 
+import json
 import requests
 from requests.exceptions import RequestException
 
-from substrate import db, HeatMap, PCAPlot
+from substrate import db, EnrichrResults, L1000CDS2Results, HeatMap, PCAPlot
 
 
 gene_signature_to_report = db.Table(
@@ -88,7 +89,7 @@ class Report(db.Model):
         # that custom report.
         return []
 
-    def reset(self):
+    def reset(self, reanalyze=False):
         """Deletes all associated visualizations for report.
         """
         for heat_map in self.heat_maps:
@@ -102,6 +103,13 @@ class Report(db.Model):
                 .query \
                 .filter_by(id=self.pca_plot.id) \
                 .delete()
+
+        if reanalyze:
+            for sig in self.gene_signatures:
+                EnrichrResults.query.filter_by(gene_signature_fk=sig.id)\
+                    .delete()
+                L1000CDS2Results.query.filter_by(gene_signature_fk=sig.id)\
+                    .delete()
 
     @property
     def ready(self):
@@ -140,6 +148,15 @@ class Report(db.Model):
         return self.ready
 
     @property
+    def genes_heat_map(self):
+        """Returns the genes heat map if it exists, None otherwise.
+        """
+        for viz in self.heat_maps:
+            if viz.viz_type == 'gen3va':
+                return viz
+        return None
+
+    @property
     def l1000cds2_heat_map(self):
         """Returns the L1000CDS2 heat map if it exists, None otherwise.
         """
@@ -149,17 +166,8 @@ class Report(db.Model):
         return None
 
     @property
-    def genes_heat_map(self):
-        """Returns the L1000CDS2 heat map if it exists, None otherwise.
-        """
-        for viz in self.heat_maps:
-            if viz.viz_type == 'gen3va':
-                return viz
-        return None
-
-    @property
     def enrichr_heat_maps(self):
         """Returns a list of Enrichr heat maps if any exist, an empty list
         otherwise.
         """
-        return [viz for viz in self.heat_maps if viz.viz_type == 'enrichr']
+        return [viz.to_dict() for viz in self.heat_maps if viz.viz_type == 'enrichr']
