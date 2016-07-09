@@ -204,10 +204,10 @@ class GeneSignature(db.Model):
                 return r
         return None
 
-    def get_enrichr_results(self, is_up):
+    def get_enrichr_results(self, is_up, library):
         """Returns the correct Enrichr results if they exist.
         """
         for r in self.enrichr_results:
-            if r.is_up == is_up:
+            if r.is_up == is_up and r.library == library:
                 return r
         return None

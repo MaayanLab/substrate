@@ -20,7 +20,9 @@ from models.pcaplot import PCAPlot
 from models.rankedgene import RankedGene
 from models.requiredmetadata import RequiredMetadata
 from models.enrichrresults import EnrichrResults
+from models.enrichmentterm import EnrichmentTerm
 from models.l1000cds2results import L1000CDS2Results
+from models.perturbation import Perturbation
 from models.report import Report
 from models.resource import Resource
 from models.softfile import SoftFile
