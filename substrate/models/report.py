@@ -119,16 +119,9 @@ class Report(db.Model):
         CLUSTERGRAMMER_URL = 'http://amp.pharm.mssm.edu/clustergrammer/status_check/'
         if self.pca_plot:
             return True
-        for viz in self.heat_maps:
-            clustergrammer_id = viz.link.split('/')[-2:-1][0]
-            url = CLUSTERGRAMMER_URL + str(clustergrammer_id)
-            try:
-                resp = requests.get(url)
-                if resp.text == 'finished':
-                    return True
-            except RequestException as e:
-                print(e)
-                return False
+        for hm in self.heat_maps:
+            if hm.network:
+                return True
         return False
 
     def complete(self, enrichr_libraries):
