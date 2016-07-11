@@ -116,7 +116,6 @@ class Report(db.Model):
         """Returns True if the PCA visualization or at least one hierarchical
         clustering visualization is ready.
         """
-        CLUSTERGRAMMER_URL = 'http://amp.pharm.mssm.edu/clustergrammer/status_check/'
         if self.pca_plot:
             return True
         for hm in self.heat_maps:
