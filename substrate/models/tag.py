@@ -41,7 +41,7 @@ class Tag(db.Model):
 
     @property
     def approved_report(self):
-        """Returns the  approved report if it exists, None otherwise.
+        """Returns the approved report if it exists, None otherwise.
         """
         for report in self.reports:
             if report.is_approved:
