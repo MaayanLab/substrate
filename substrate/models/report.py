@@ -24,6 +24,7 @@ class Report(db.Model):
     is_approved = db.Column(db.Boolean, default=False)
     contact = db.Column(db.String(255), nullable=True)
     name = db.Column(db.String(255), nullable=True)
+    category = db.Column(db.String(255), nullable=True)
     tag_fk = db.Column(db.Integer, db.ForeignKey('tag.id'))
 
     heat_maps = db.relationship(
@@ -45,7 +46,7 @@ class Report(db.Model):
     )
 
     def __init__(self, tag, _gene_signatures=None, contact=None,
-                 is_approved=False, name=None):
+                 is_approved=False, name=None, category=None):
         self.tag = tag
 
         if not _gene_signatures:
