@@ -179,10 +179,11 @@ class GeneSignature(db.Model):
     def get_optional_metadata(self, name):
         """Returns optional metadata value if it exists, None otherwise.
         """
-        name = name.lower()
-        for opt in self.optional_metadata:
-            if opt.name.lower() == name:
-                return opt
+        if type(name) is str:
+            name = name.lower()
+            for opt in self.optional_metadata:
+                if opt.name.lower() == name:
+                    return opt
         return None
 
     @property
