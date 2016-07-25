@@ -64,6 +64,7 @@ class Report(db.Model):
         self.is_approved = is_approved
         self.name = name
         self.heat_maps = []
+        self.category = category
         self.pca_plot = None
 
     def __repr__(self):
