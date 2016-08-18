@@ -21,6 +21,8 @@ class GeneSignature(db.Model):
         db.Integer,
         db.ForeignKey('resource.id')
     )
+    _name = db.Column(db.Integer, nullable=True)
+
     soft_file = db.relationship(
         'SoftFile',
         uselist=False,
@@ -48,7 +50,8 @@ class GeneSignature(db.Model):
         backref=db.backref('gene_signature', order_by=id)
     )
 
-    def __init__(self, soft_file, gene_lists, required_metadata, optional_metadata, tags, resource):
+    def __init__(self, soft_file, gene_lists, required_metadata,
+                 optional_metadata, tags, resource, _name=None):
         """Construct an Extraction instance. This is called only by class
         methods.
         """
@@ -61,6 +64,7 @@ class GeneSignature(db.Model):
         self.optional_metadata = optional_metadata
         self.tags = tags
         self.resource = resource
+        self._name = _name
 
     def __repr__(self):
         return '<GeneSignature %r>' % self.id
@@ -70,6 +74,8 @@ class GeneSignature(db.Model):
         """Returns the most specific name for the gene signature, depending on
         the SOFT file name, the dataset title or the extraction ID.
         """
+        if self._name:
+            return self._name
 
         # Return the GEO dataset title or SOFT file name if possible.
         if self.is_from_geo:

@@ -10,6 +10,7 @@ class BioCategory(db.Model):
     __tablename__ = 'bio_category'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
+    order = db.Column(db.Integer)
     tags = db.relationship('Tag',
                            backref=db.backref('bio_category', order_by=id))
 
