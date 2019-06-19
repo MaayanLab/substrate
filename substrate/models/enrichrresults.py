@@ -1,7 +1,7 @@
 """Represents results from enrichment analysis via Enrichr.
 """
 
-from substrate import db
+from .. import db
 
 
 class EnrichrResults(db.Model):

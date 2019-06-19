@@ -2,7 +2,7 @@
 signatures for a tag.
 """
 
-from substrate import db
+from .. import db
 
 
 class EnrichmentTerm(db.Model):

@@ -4,7 +4,7 @@
 import json
 import requests
 
-from substrate import db
+from .. import db
 
 
 class L1000CDS2Results(db.Model):

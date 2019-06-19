@@ -1,7 +1,7 @@
 """Unique gene symbol in a table of canonical symbols.
 """
 
-from substrate import db
+from .. import db
 
 
 class Gene(db.Model):

@@ -3,7 +3,7 @@
 
 import json
 
-from substrate import db
+from .. import db
 
 
 class HeatMap(db.Model):

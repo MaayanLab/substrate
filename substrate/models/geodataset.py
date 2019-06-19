@@ -2,8 +2,8 @@
 and GeoPlatform (GPL).
 """
 
-from substrate import db
-from substrate.models.dataset import Dataset
+from .. import db
+from .dataset import Dataset
 
 
 class GeoDataset(Dataset):

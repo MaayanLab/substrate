@@ -1,7 +1,7 @@
 """Represents a metadata tag for aggregating signatures.
 """
 
-from substrate import db
+from .. import db
 
 
 gene_signature_to_tag = db.Table(

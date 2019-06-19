@@ -2,7 +2,7 @@
 the cleaned file and associated metadata.
 """
 
-from substrate import db
+from .. import db
 
 
 class SoftFile(db.Model):

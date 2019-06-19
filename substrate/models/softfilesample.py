@@ -2,7 +2,7 @@
 was used for as a control or an experiment.
 """
 
-from substrate import db
+from .. import db
 
 
 class SoftFileSample(db.Model):

@@ -3,7 +3,7 @@
 
 import hashlib
 
-from substrate import db
+from .. import db
 
 
 ranked_gene_to_gene_list = db.Table('ranked_gene_to_gene_list', db.metadata,

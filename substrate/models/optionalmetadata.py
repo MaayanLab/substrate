@@ -1,7 +1,7 @@
 """Optional metadata for a gene signature extraction.
 """
 
-from substrate import db
+from .. import db
 
 
 class OptionalMetadata(db.Model):

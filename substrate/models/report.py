@@ -5,7 +5,7 @@ import json
 import requests
 from requests.exceptions import RequestException
 
-from substrate import db, EnrichrResults, L1000CDS2Results, HeatMap, PCAPlot
+from .. import db, EnrichrResults, L1000CDS2Results, HeatMap, PCAPlot
 
 
 gene_signature_to_report = db.Table(

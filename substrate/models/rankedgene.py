@@ -2,7 +2,7 @@
 and has a many-to-many db.relationship with a GeneList.
 """
 
-from substrate import db
+from .. import db
 
 
 class RankedGene(db.Model):

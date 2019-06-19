@@ -6,7 +6,7 @@ import uuid
 
 from sqlalchemy.orm.exc import NoResultFound
 
-from substrate import db
+from .. import db
 
 
 class User(db.Model):

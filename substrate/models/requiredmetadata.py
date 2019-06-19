@@ -2,7 +2,7 @@
 """
 
 
-from substrate import db
+from .. import db
 
 
 class RequiredMetadata(db.Model):

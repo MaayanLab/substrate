@@ -2,7 +2,7 @@
 and GeoPlatform (GPL).
 """
 
-from substrate import db
+from .. import db
 
 
 class Dataset(db.Model):

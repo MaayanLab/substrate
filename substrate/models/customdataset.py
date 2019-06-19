@@ -1,7 +1,7 @@
 """Custom data source record uploaded by user.
 """
 
-from substrate.models.dataset import Dataset
+from .dataset import Dataset
 
 
 class CustomDataset(Dataset):

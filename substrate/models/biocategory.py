@@ -2,7 +2,7 @@
 subsets.
 """
 
-from substrate import db
+from .. import db
 
 
 class BioCategory(db.Model):

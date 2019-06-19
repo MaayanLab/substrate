@@ -1,7 +1,7 @@
 """PCA plot of a gene signatures in a report.
 """
 
-from substrate import db
+from .. import db
 
 
 class PCAPlot(db.Model):

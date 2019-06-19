@@ -6,7 +6,7 @@ processed data, with links to the SOFT file, gene lists, and metadata.
 import hashlib
 import time
 
-from substrate import db
+from .. import db
 
 
 class GeneSignature(db.Model):
