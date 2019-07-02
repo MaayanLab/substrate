@@ -50,7 +50,7 @@ class User(db.Model):
     def _is_correct_password(hashed, candidate, salt):
         """Returns True if the candidate password is correct, False otherwise.
         """
-        return hashlib.sha512(candidate + salt).hexdigest() == hashed
+        return hashlib.sha512((candidate + salt).encode()).hexdigest() == hashed
 
     def is_correct_password(self, candidate):
         """Returns True if the candidate password is correct, False otherwise.
@@ -62,5 +62,5 @@ class User(db.Model):
         """Hash a password for the first time.
         """
         salt = uuid.uuid4().hex
-        hashed = hashlib.sha512(password + salt).hexdigest()
+        hashed = hashlib.sha512((password + salt).encode()).hexdigest()
         return hashed, salt

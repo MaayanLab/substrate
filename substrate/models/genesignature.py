@@ -57,7 +57,7 @@ class GeneSignature(db.Model):
         """
         # This is *not* the database ID. This is hashed so that users cannot
         # simply guess the ID for other user's data.
-        self.extraction_id = hashlib.sha1(str(time.time())).hexdigest()[:10]
+        self.extraction_id = hashlib.sha1(str(time.time()).encode()).hexdigest()[:10]
         self.soft_file = soft_file
         self.gene_lists = gene_lists
         self.required_metadata = required_metadata
