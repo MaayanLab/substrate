@@ -116,7 +116,7 @@ class GeneSignature(db.Model):
         """
         if len(self.gene_lists) == 3:
             return self._genes_by_direction(-1)
-        return [x for x in self.combined_genes if x.value and x.value < 0]
+        return [x for x in self.combined_genes if x.value < 0]
 
     def gene_list_by_direction(self, direction):
         """Returns correct gene list based on direction.
